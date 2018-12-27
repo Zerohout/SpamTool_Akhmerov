@@ -10,7 +10,7 @@
         xmlns:db="clr-namespace:SpamTool_Akhmerov.lib.Database;assembly=SpamTool_Akhmerov.lib"
         mc:Ignorable="d"
                       Title="SpamTool" 
-                      Height="700" Width="1000"
+                      Height="500" Width="815"
                       BorderThickness="0" 
                       GlowBrush="Black"
                       ResizeMode="CanResizeWithGrip"
@@ -31,10 +31,10 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-
         <StackPanel Orientation="Horizontal">
             <Button
                 x:Name="BtnPreviousTab"
+                Click="OnBtnPreviousTabClick"
                 VerticalAlignment="Top"
                 Margin="3 9 0 0"
                 Width="20"
@@ -45,9 +45,12 @@
                     Height="10"
                     Width="8"/>
             </Button>
-            <controls:MetroAnimatedTabControl>
-
-                <controls:MetroTabItem Header="Списки рассылки">
+            <controls:MetroAnimatedTabControl
+                x:Name="TabControlSpamTool"
+                TabIndex="0" SelectionChanged="TabControlSpamTool_SelectionChanged">
+                <controls:MetroTabItem 
+                    Header="Списки рассылки"
+                    TabIndex="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -117,8 +120,7 @@
                                     Width="150"
                                     Margin="5 0 0 0"
                                     ItemsSource="{x:Static data:MailServers.Servers}"
-                                    DisplayMemberPath="Address"
-                                    SelectedIndex="0"/>
+                                    DisplayMemberPath="Address"/>
                                 <Button
                                     x:Name="BtnAddServer"
                                     Margin="3 0 0 0">
@@ -206,7 +208,7 @@
                         </Grid>
                     </Grid>
                 </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Планировщик">
+                <controls:MetroTabItem Header="Планировщик" TabIndex="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -245,7 +247,9 @@
                                         FontFamily="Comic Sans MS"/>
                                 </StackPanel>
                             </Button>
-                            <Button>
+                            <Button
+                                x:Name="BtnSendMail"
+                                Click="OnSendButtonClick">
                                 <StackPanel Orientation="Horizontal">
                                     <fa:ImageAwesome 
                                         Icon="Send" 
@@ -274,16 +278,17 @@
                         </StackPanel>
                     </Grid>
                 </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Редактор писем">
+                <controls:MetroTabItem Header="Редактор писем" TabIndex="2">
 
                 </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Статистика">
+                <controls:MetroTabItem Header="Статистика" TabIndex="3">
 
                 </controls:MetroTabItem>
 
             </controls:MetroAnimatedTabControl>
             <Button
                 x:Name="BtnNextTab"
+                Click="OnBtnNextTabClick"
                 VerticalAlignment="Top"
                 Margin="0 9 3 0"
                 Width="20"

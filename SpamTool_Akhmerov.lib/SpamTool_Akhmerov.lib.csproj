@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Service\DatabaseService.cs" />
     <Compile Include="Service\MailSenderService.cs" />
+    <Compile Include="Service\NotificationService.cs" />
     <Compile Include="Service\PasswordSerice.cs" />
   </ItemGroup>
   <ItemGroup>
