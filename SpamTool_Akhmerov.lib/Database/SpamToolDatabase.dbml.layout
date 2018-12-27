@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SpamToolDatabase">
+  <DataContextMoniker Name="/SpamToolDatabaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="f9af114e-b658-4851-89e9-0f608439c086" absoluteBounds="3.375, 1.875, 2, 1.3862939453125">
+      <DataClassMoniker Name="/SpamToolDatabaseDataContext/EmailRecipients" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f284a99a-d02d-4f8f-b519-58c1807db489" absoluteBounds="3.39, 2.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

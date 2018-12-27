@@ -116,5 +116,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpamTool_Akhmerov.lib\SpamTool_Akhmerov.lib.csproj">
+      <Project>{889114E1-E89B-4D4D-BE18-8112A81F80E3}</Project>
+      <Name>SpamTool_Akhmerov.lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
