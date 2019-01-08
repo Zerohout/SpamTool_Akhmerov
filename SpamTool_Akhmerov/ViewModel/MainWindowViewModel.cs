@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Security.Policy;
-using System.Windows.Input;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SpamTool_Akhmerov.lib.Database;
 using SpamTool_Akhmerov.lib.Interfaces;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace SpamTool_Akhmerov.ViewModel
 {

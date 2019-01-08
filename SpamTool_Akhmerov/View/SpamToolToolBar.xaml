@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:SpamTool_Akhmerov.View"
              xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="420">
     <ToolBar>
