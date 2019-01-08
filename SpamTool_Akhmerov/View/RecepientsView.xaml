@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="SpamTool_Akhmerov.View.RecepientsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:l="clr-namespace:SpamTool_Akhmerov.View"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             DataContext="{Binding MainWindowModel, 
+                           Source={StaticResource Locator}}"
+             
+    d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding UpdateRecepientsCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel>
+        <TextBlock
+                HorizontalAlignment="Center"
+                Margin="0 10 0 5"
+                FontFamily="Comic Sans MS"
+                FontSize="18"
+                FontWeight="Bold"
+                DockPanel.Dock="Top"
+                Text="Получатели сообщений"/>
+        <DockPanel
+            Margin="5"
+            DockPanel.Dock="Top">
+            <TextBlock
+                FontFamily="Comic Sans MS"
+                FontSize="15"
+                FontWeight="Bold"
+                VerticalAlignment="Center"
+                Margin="0 0 5 0"
+                Text="Поиск по имени:"/>
+            <TextBox
+                />
+        </DockPanel>
+
+        <Button
+            HorizontalAlignment="Center"
+            Margin="0 10"
+            Padding="60 10"
+            DockPanel.Dock="Bottom"
+            Content="Обновить"
+            Command="{Binding UpdateRecepientsCommand}"/>
+        <DataGrid
+            Margin="0 0 5 0"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            HorizontalGridLinesBrush="{x:Null}"
+            ColumnHeaderStyle="{StaticResource AzureDataGridColumnHeader}"
+            AlternatingRowBackground="Black"
+            ItemsSource="{Binding Recipients}"
+            SelectedItem="{Binding CurrentRecipient}">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="ID" 
+                    MinWidth="35"
+                    Binding="{Binding Id}"/>
+                <DataGridTextColumn 
+                    Header="Имя" 
+                    MinWidth="100"
+                    Binding="{Binding Name}"/>
+                <DataGridTextColumn 
+                    Header="Адрес" 
+                    MinWidth="200"
+                    Binding="{Binding EmailAddress}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>
