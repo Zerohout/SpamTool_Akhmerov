@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="SpamTool_Akhmerov.View.SpamToolToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpamTool_Akhmerov.View"
+             xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="420">
+    <ToolBar>
+        <TextBlock
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            FontSize="16"
+            FontFamily="Comic Sans MS"
+            Text="Название"/>
+        <ComboBox
+            x:Name="CBoxSenders"
+            VerticalAlignment="Center"
+            Width="180"
+            Margin="5 0 0 0"
+            SelectedIndex="0">
+        </ComboBox>
+        <Button
+            x:Name="BtnAddSender"
+            Margin="3 0 0 0">
+            <fa:ImageAwesome
+            Icon="Plus"
+            Height="20"
+            Foreground="DarkGreen"/>
+        </Button>
+        <Button
+            x:Name="BtnEditSender"
+            Margin="3 0 0 0">
+            <fa:ImageAwesome
+            Icon="Edit"
+            Height="20"
+            Foreground="DarkOrange"/>
+        </Button>
+        <Button
+            x:Name="BtnRemoveSender"
+            Margin="3 0 0 0">
+            <fa:ImageAwesome
+            Icon="Remove"
+            Height="20"
+            Foreground="DarkRed"/>
+        </Button>
+    </ToolBar>
+</UserControl>

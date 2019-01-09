@@ -1,12 +1,304 @@
-﻿<Window x:Class="SpamTool_Akhmerov.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SpamTool_Akhmerov"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+﻿<controls:MetroWindow 
+    x:Class="SpamTool_Akhmerov.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:local="clr-namespace:SpamTool_Akhmerov"
+    xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
+    xmlns:view="clr-namespace:SpamTool_Akhmerov.View"
+    mc:Ignorable="d"
+        Title="{Binding Title}"
+        DataContext=
+        "{Binding MainWindowModel, 
+                  Source={StaticResource Locator}}"
+        Height="500" Width="815"
+        TitleCharacterCasing="Normal"
+        BorderThickness="0" 
+        GlowBrush="Black"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Создать"/>
+                    <MenuItem Header="Открыть"/>
+                    <MenuItem Header="Закрыть"/>
+                    <MenuItem Header="Сохранить"/>
+                    <Separator/>
+                    <MenuItem Header="Выход" Click="OnExitClick"/>
+                </MenuItem>
+                <MenuItem Header="Помощь">
+                    <MenuItem Header="О программе" IsEnabled="False"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <StatusBar 
+            DockPanel.Dock="Bottom">
+            <TextBlock Text="{Binding Status}"/>
+        </StatusBar>
+        <StackPanel Orientation="Horizontal">
+            <Button
+                x:Name="BtnPreviousTab"
+                Click="OnBtnPreviousTabClick"
+                VerticalAlignment="Top"
+                Margin="3 9 0 0"
+                Width="20"
+                Height="25">
+                <fa:ImageAwesome 
+                    Icon="AngleLeft"
+                    Foreground="Red"
+                    Height="10"
+                    Width="8"/>
+            </Button>
+            <controls:MetroAnimatedTabControl
+                x:Name="TabControlSpamTool"
+                TabIndex="0" SelectionChanged="TabControlSpamTool_SelectionChanged">
+                <controls:MetroTabItem 
+                    Header="Списки рассылки"
+                    TabIndex="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ToolBarTray
+                            Grid.Row="0">
+                            <ToolBar>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    FontSize="16"
+                                    FontFamily="Comic Sans MS"
+                                    Text="Отправители:"/>
+                                <ComboBox
+                                    x:Name="CBoxSenders"
+                                    VerticalAlignment="Center"
+                                    Width="180"
+                                    Margin="5 0 0 0"
+                                    SelectedIndex="0"
+                                    ItemsSource="{x:Static data:Senders.List}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate DataType="data:Sender">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}"/>
+                                                <TextBlock>:</TextBlock>
+                                                <TextBlock Text="{Binding Address}" Opacity="0.5"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button
+                                    x:Name="BtnAddSender"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Plus"
+                                        Height="20"
+                                        Foreground="DarkGreen"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnEditSender"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Edit"
+                                        Height="20"
+                                        Foreground="DarkOrange"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnRemoveSender"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Remove"
+                                        Height="20"
+                                        Foreground="DarkRed"/>
+                                </Button>
+                            </ToolBar>
+                            <ToolBar>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    FontSize="16"
+                                    FontFamily="Comic Sans MS"
+                                    Text="Сервера:"
+                                    />
+                                <ComboBox
+                                    x:Name="CBoxServers"
+                                    Width="150"
+                                    Margin="5 0 0 0"
+                                    ItemsSource="{x:Static data:MailServers.Servers}"
+                                    DisplayMemberPath="Address"/>
+                                <Button
+                                    x:Name="BtnAddServer"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Plus"
+                                        Height="20"
+                                        Foreground="DarkGreen"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnEditServer"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Edit"
+                                        Height="20"
+                                        Foreground="DarkOrange"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnRemoveServer"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Remove"
+                                        Height="20"
+                                        Foreground="DarkRed"/>
+                                </Button>
+                            </ToolBar>
+                            <ToolBar 
+                                Band="1"
+                                BandIndex="0">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    FontSize="16"
+                                    FontFamily="Comic Sans MS"
+                                    Text="Список адресатов:"/>
+                                <Button
+                                    x:Name="BtnAddAddressee"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Plus"
+                                        Height="20"
+                                        Foreground="DarkGreen"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnEditAddressee"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Edit"
+                                        Height="20"
+                                        Foreground="DarkOrange"/>
+                                </Button>
+                                <Button
+                                    x:Name="BtnRemoveAddressee"
+                                    Margin="3 0 0 0">
+                                    <fa:ImageAwesome
+                                        Icon="Remove"
+                                        Height="20"
+                                        Foreground="DarkRed"/>
+                                </Button>
+                            </ToolBar>
+                        </ToolBarTray>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <view:RecepientsView 
+                                Grid.Column="0"/>
+                            <GridSplitter 
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                Width="4"
+                                Background="DarkRed"/>
+                            <view:RecipientsEditorView Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+                </controls:MetroTabItem>
+                <controls:MetroTabItem Header="Планировщик" TabIndex="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <GroupBox Header="Дата/время">
+                                <StackPanel>
+                                    <Calendar/>
+                                    <controls:DateTimePicker/>
+                                </StackPanel>
+                            </GroupBox>
+                            <Button>
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome 
+                                        Icon="ClockOutline" 
+                                        Height="13">
+                                        <fa:ImageAwesome.Foreground>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <LinearGradientBrush.RelativeTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <RotateTransform Angle="-30" CenterY="0.5" CenterX="0.5"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </LinearGradientBrush.RelativeTransform>
+                                                <GradientStop Color="Red" Offset="0"/>
+                                                <GradientStop Color="DarkRed" Offset="0.8"/>
+                                            </LinearGradientBrush>
+                                        </fa:ImageAwesome.Foreground>
+                                    </fa:ImageAwesome>
+                                    <TextBlock 
+                                        Text="Запланировать" 
+                                        Margin="3,0,0,0"
+                                        FontFamily="Comic Sans MS"/>
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="BtnSendMail"
+                                Click="OnSendButtonClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome 
+                                        Icon="Send" 
+                                        Height="13">
+                                        <fa:ImageAwesome.Foreground>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <LinearGradientBrush.RelativeTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                        <RotateTransform Angle="-30" CenterY="0.5" CenterX="0.5"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </LinearGradientBrush.RelativeTransform>
+                                                <GradientStop Color="Red" Offset="0"/>
+                                                <GradientStop Color="DarkRed" Offset="0.75"/>
+                                            </LinearGradientBrush>
+                                        </fa:ImageAwesome.Foreground>
+                                    </fa:ImageAwesome>
+                                    <TextBlock 
+                                        Text="Отправить сразу" 
+                                        FontFamily="Comic Sans MS"
+                                        Margin="3,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </controls:MetroTabItem>
+                <controls:MetroTabItem Header="Редактор писем" TabIndex="2">
+
+                </controls:MetroTabItem>
+                <controls:MetroTabItem Header="Статистика" TabIndex="3">
+
+                </controls:MetroTabItem>
+
+            </controls:MetroAnimatedTabControl>
+            <Button
+                x:Name="BtnNextTab"
+                Click="OnBtnNextTabClick"
+                VerticalAlignment="Top"
+                Margin="0 9 3 0"
+                Width="20"
+                Height="25">
+                <fa:ImageAwesome 
+                    Icon="AngleRight"
+                    Foreground="Red"
+                    Height="10"
+                    Width="8"/>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+
+</controls:MetroWindow>
