@@ -88,6 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ListControlPanel.xaml.cs">
+      <DependentUpon>ListControlPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestMainViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -98,9 +101,10 @@
     <Compile Include="View\RecipientsEditorView.xaml.cs">
       <DependentUpon>RecipientsEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SpamToolToolBar.xaml.cs">
-      <DependentUpon>SpamToolToolBar.xaml</DependentUpon>
-    </Compile>
+    <Page Include="Controls\ListControlPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,10 +122,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RecipientsEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SpamToolToolBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
