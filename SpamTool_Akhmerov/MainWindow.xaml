@@ -1,10 +1,10 @@
-﻿<controls:MetroWindow 
+﻿<metro:MetroWindow 
     x:Class="SpamTool_Akhmerov.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:ctrl="clr-namespace:SpamTool_Akhmerov.Controls"
     xmlns:local="clr-namespace:SpamTool_Akhmerov"
@@ -55,11 +55,11 @@
                     Height="10"
                     Width="8"/>
             </Button>
-            <controls:MetroAnimatedTabControl
+            <metro:MetroAnimatedTabControl
                 x:Name="TabControlSpamTool"
                 TabIndex="0" 
                 SelectionChanged="TabControlSpamTool_SelectionChanged">
-                <controls:MetroTabItem 
+                <metro:MetroTabItem 
                     Header="Списки рассылки"
                     TabIndex="0">
                     <Grid>
@@ -67,57 +67,65 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ToolBarTray
+                        <Grid
                             Grid.Row="0">
-                            <ToolBar>
-                                <ctrl:ListControlPanel
-                                    HorizontalAlignment="Left"
-                                    PanelText="Отправители"
-                                    ControlWidth="350"
-                                    ItemSource="{x:Static data:Senders.List}"
-                                    SelectedIndex="0"
-                                    IsVisibled="Visible">
-                                    <ctrl:ListControlPanel.ListItemTemplate>
-                                        <DataTemplate DataType="data:Sender">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}"/>
-                                                <TextBlock>:</TextBlock>
-                                                <TextBlock Text="{Binding Address}" Opacity="0.5"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ctrl:ListControlPanel.ListItemTemplate>
-                                </ctrl:ListControlPanel>
-                            </ToolBar>
-                            <ToolBar>
-                                <ctrl:ListControlPanel
-                                    HorizontalAlignment="Left"
-                                    PanelText="Сервера"
-                                    ControlWidth="350"
-                                    ItemSource="{x:Static data:MailServers.Servers}"
-                                    SelectedIndex="0"
-                                    IsVisibled="Visible">
-                                    <ctrl:ListControlPanel.ListItemTemplate>
-                                        <DataTemplate DataType="data:Sender">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Address}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ctrl:ListControlPanel.ListItemTemplate>
-                                </ctrl:ListControlPanel>
-                            </ToolBar>
-                            <ToolBar
-                                Band="1"
-                                Width="Auto">
-                                <ctrl:ListControlPanel
-                                    HorizontalAlignment="Left"
-                                    ColumnWidth="0"
-                                    ControlWidth="Auto"
-                                    PanelText="Список адресатов"
-                                    IsVisibled="Hidden"
-                                    SelectedIndex="0"/>
-                            </ToolBar>
-                        </ToolBarTray>
-                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ctrl:ControlPanelView
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                PanelText="Отправители"
+                                ControlWidth="350"
+                                Margin="0 0 5 0"
+                                ItemSource="{x:Static data:Senders.List}"
+                                SelectedIndex="0"
+                                IsVisibled="Visible">
+                                <ctrl:ControlPanelView.ListItemTemplate>
+                                    <DataTemplate DataType="data:Sender">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <TextBlock>:</TextBlock>
+                                            <TextBlock Text="{Binding Address}" Opacity="0.5"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ControlPanelView.ListItemTemplate>
+                            </ctrl:ControlPanelView>
+                            <ctrl:ControlPanelView
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                PanelText="Сервера"
+                                ControlWidth="350"
+                                ItemSource="{x:Static data:MailServers.Servers}"
+                                SelectedIndex="0"
+                                IsVisibled="Visible">
+                                <ctrl:ControlPanelView.ListItemTemplate>
+                                    <DataTemplate DataType="data:Sender">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Address}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ctrl:ControlPanelView.ListItemTemplate>
+                            </ctrl:ControlPanelView>
+                            <ctrl:ControlPanelView
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                ColumnWidth="0"
+                                ControlWidth="Auto"
+                                PanelText="Список адресатов"
+                                IsVisibled="Hidden"
+                                SelectedIndex="0"/>
+                        </Grid>
+                        <Grid
+                            Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="2*"/>
@@ -125,8 +133,8 @@
                             <view:RecepientsView 
                                 Grid.Column="0"/>
                             <GridSplitter 
-                                Grid.Column="0"
-                                HorizontalAlignment="Right"
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Stretch"
                                 Width="1"
                                 Background="DarkRed"/>
@@ -135,8 +143,8 @@
                                 Grid.Column="1"/>
                         </Grid>
                     </Grid>
-                </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Планировщик" TabIndex="1">
+                </metro:MetroTabItem>
+                <metro:MetroTabItem Header="Планировщик" TabIndex="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -146,7 +154,7 @@
                             <GroupBox Header="Дата/время">
                                 <StackPanel>
                                     <Calendar/>
-                                    <controls:DateTimePicker/>
+                                    <metro:DateTimePicker/>
                                 </StackPanel>
                             </GroupBox>
                             <Button>
@@ -204,15 +212,15 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-                </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Редактор писем" TabIndex="2">
+                </metro:MetroTabItem>
+                <metro:MetroTabItem Header="Редактор писем" TabIndex="2">
 
-                </controls:MetroTabItem>
-                <controls:MetroTabItem Header="Статистика" TabIndex="3">
+                </metro:MetroTabItem>
+                <metro:MetroTabItem Header="Статистика" TabIndex="3">
 
-                </controls:MetroTabItem>
+                </metro:MetroTabItem>
 
-            </controls:MetroAnimatedTabControl>
+            </metro:MetroAnimatedTabControl>
             <Button
                 x:Name="BtnNextTab"
                 Click="OnBtnNextTabClick"
@@ -229,4 +237,4 @@
         </StackPanel>
     </DockPanel>
 
-</controls:MetroWindow>
+</metro:MetroWindow>
