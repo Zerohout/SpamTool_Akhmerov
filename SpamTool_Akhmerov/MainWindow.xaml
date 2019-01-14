@@ -10,6 +10,8 @@
     xmlns:local="clr-namespace:SpamTool_Akhmerov"
     xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
     xmlns:view="clr-namespace:SpamTool_Akhmerov.View"
+    xmlns:database="clr-namespace:SpamTool_Akhmerov.lib.Database;assembly=SpamTool_Akhmerov.lib"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     mc:Ignorable="d"
         Title="{Binding Title}"
         DataContext=
@@ -21,6 +23,12 @@
         GlowBrush="Black"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding UpdateSendersCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Menu DockPanel.Dock="Top">
@@ -30,7 +38,7 @@
                     <MenuItem Header="Закрыть"/>
                     <MenuItem Header="Сохранить"/>
                     <Separator/>
-                    <MenuItem Header="Выход" Click="OnExitClick"/>
+                    <MenuItem Header="Выход" Command="{Binding ExitCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Помощь">
                     <MenuItem Header="О программе" IsEnabled="False"/>
@@ -44,7 +52,8 @@
         <StackPanel Orientation="Horizontal">
             <Button
                 x:Name="BtnPreviousTab"
-                Click="OnBtnPreviousTabClick"
+                Command="{Binding GoToPrevTabCommand,
+                        UpdateSourceTrigger=PropertyChanged}"
                 VerticalAlignment="Top"
                 Margin="3 9 0 0"
                 Width="20"
@@ -57,8 +66,8 @@
             </Button>
             <metro:MetroAnimatedTabControl
                 x:Name="TabControlSpamTool"
-                TabIndex="0" 
-                SelectionChanged="TabControlSpamTool_SelectionChanged">
+                TabIndex="0"
+                SelectedIndex="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}">
                 <metro:MetroTabItem 
                     Header="Списки рассылки"
                     TabIndex="0">
@@ -82,18 +91,21 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                PanelText="Отправители"
+                                PanelText="Отправители:"
+                                
                                 ControlWidth="350"
                                 Margin="0 0 5 0"
-                                ItemSource="{x:Static data:Senders.List}"
+                                ItemSource="{Binding Senders}"
+                                SelectedItem="{Binding CurrentSender}"
+                                UpdateDataCommand="{Binding UpdateSendersCommand}"
                                 SelectedIndex="0"
                                 IsVisibled="Visible">
                                 <ctrl:ControlPanelView.ListItemTemplate>
-                                    <DataTemplate DataType="data:Sender">
+                                    <DataTemplate DataType="database:Sender">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock>:</TextBlock>
-                                            <TextBlock Text="{Binding Address}" Opacity="0.5"/>
+                                            <TextBlock Text="{Binding Email}" Opacity="0.5"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ctrl:ControlPanelView.ListItemTemplate>
@@ -108,9 +120,11 @@
                                 SelectedIndex="0"
                                 IsVisibled="Visible">
                                 <ctrl:ControlPanelView.ListItemTemplate>
-                                    <DataTemplate DataType="data:Sender">
+                                    <DataTemplate DataType="data:MailServer">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Address}"/>
+                                            <TextBlock Text=":"/>
+                                            <TextBlock Text="{Binding Port}" Opacity="0.5"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ctrl:ControlPanelView.ListItemTemplate>
@@ -211,6 +225,45 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
+                        <GroupBox Grid.Column="1" Header="Задания планировщика">
+                            <ListBox ItemsSource="{Binding Scheduler.Tasks}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="data:SchedulerTask">
+                                        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="3">
+                                            <StackPanel>
+                                                <TextBlock>
+                                                 <TextBlock>Время задания:</TextBlock>
+                                                <TextBlock Text="{Binding Time, StringFormat='dd.MM.yyyy h:mm.ss'}"/>
+                                            </TextBlock>
+                                                <TextBlock>
+                                                <TextBlock>Отправитель:</TextBlock>
+                                                <TextBlock Text="{Binding Sender.Name}"/>
+                                                (<TextBlock Text="{Binding Sender.Email}"/>)
+                                            </TextBlock>
+                                                <TextBlock>
+                                                <TextBlock>Сервер:</TextBlock>
+                                                <TextBlock Text="{Binding Server.Address}"/>:<TextBlock Text="{Binding Server.Port}"/>
+                                                UseSSL: <TextBlock Text="{Binding Server.UseSSL}"/>
+                                            </TextBlock>
+                                                <TextBlock Text="Получатели писем"/>
+                                                <ListBox ItemsSource="{Binding Recipients}" Margin="5,0,2,2">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate DataType="database:EmailRecipient">
+                                                            <TextBlock Text="{Binding Name}"/>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
                     </Grid>
                 </metro:MetroTabItem>
                 <metro:MetroTabItem Header="Редактор писем" TabIndex="2">
@@ -223,7 +276,8 @@
             </metro:MetroAnimatedTabControl>
             <Button
                 x:Name="BtnNextTab"
-                Click="OnBtnNextTabClick"
+                Command="{Binding GoToNextTabCommand, 
+                        UpdateSourceTrigger=PropertyChanged}"
                 VerticalAlignment="Top"
                 Margin="0 9 3 0"
                 Width="20"

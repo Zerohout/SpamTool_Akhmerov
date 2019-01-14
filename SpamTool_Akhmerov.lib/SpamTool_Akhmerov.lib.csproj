@@ -43,15 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\EmailRecipient.cs" />
     <Compile Include="Database\SpamToolDatabase.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SpamToolDatabase.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Data\Mail.cs" />
     <Compile Include="Data\MailServer.cs" />
     <Compile Include="Data\MailServers.cs" />
-    <Compile Include="Data\Sender.cs" />
-    <Compile Include="Data\Senders.cs" />
+    <Compile Include="Data\SchedulerTask.cs" />
+    <Compile Include="Data\Scheduler.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="MVVM\LamdaCommand.cs" />
     <Compile Include="MVVM\ViewModel.cs" />

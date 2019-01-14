@@ -140,6 +140,23 @@ namespace SpamTool_Akhmerov.Controls
 
         #endregion
 
+        #region UpdateDataCommand : ICommand - Команда обновления данных
+
+        public static readonly DependencyProperty UpdateDataCommandProperty = 
+            DependencyProperty.Register(
+                nameof(UpdateDataCommand), 
+                typeof(ICommand), 
+                typeof(ControlPanelView), 
+                new PropertyMetadata(default(ICommand)));
+
+        public ICommand UpdateDataCommand
+        {
+            get => (ICommand) GetValue(UpdateDataCommandProperty);
+            set => SetValue(UpdateDataCommandProperty, value);
+        }
+
+        #endregion
+
         #region EditItemCommand : ICommand - Редактирование элемента
 
         /// <summary>Редактирование элемента</summary>

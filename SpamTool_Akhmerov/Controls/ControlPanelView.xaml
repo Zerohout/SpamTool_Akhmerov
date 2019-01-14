@@ -6,10 +6,16 @@
              xmlns:local="clr-namespace:SpamTool_Akhmerov.Controls"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="35" Width="{Binding ControlWidth}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding UpdateDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -34,6 +40,16 @@
                 Visibility="{Binding IsVisibled}">
         </ComboBox>
         <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button
+                Margin="3 0 0 0"
+                BorderBrush="Transparent"
+                Background="Transparent"
+                Command="{Binding UpdateDataCommand}">
+                <fa:ImageAwesome
+                    Icon="Refresh"
+                    Height="20"
+                    Foreground="Green"/>
+            </Button>
             <Button
                 x:Name="BtnAddSender"
                 Margin="3 0 0 0"
