@@ -167,7 +167,7 @@ namespace SpamTool_Akhmerov.ViewModel
             GoToPrevTabCommand = new RelayCommand(OnGoToPrevTabCommandExecuted, CanGoToPrevTabCommandExecute);
 
             ExitCommand = new RelayCommand(OnExitCommandExecuted, CanExitCommandExecute);
-
+            
             this.dataService = dataService;
         }
     }

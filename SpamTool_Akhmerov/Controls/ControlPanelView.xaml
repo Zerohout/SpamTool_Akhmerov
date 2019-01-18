@@ -16,8 +16,8 @@
                 Command="{Binding UpdateDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>-->
-        <Grid>
-            <Grid.ColumnDefinitions>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+        <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="{Binding ColumnWidth}"/>
                 <ColumnDefinition Width="Auto"/>

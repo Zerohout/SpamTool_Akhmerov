@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Security;
 using System.Threading;
+using System.Threading.Tasks;
 using SpamTool_Akhmerov.lib.Database;
 
 namespace SpamTool_Akhmerov.lib.Service
@@ -27,12 +28,12 @@ namespace SpamTool_Akhmerov.lib.Service
             this.Password = Password;
         }
 
-        public void Send(string Subject, string Email, string Address)
+        public void Send(string Subject, string Body, string Address)
         {
             using (var message = new MailMessage(UserName, Address))
             {
                 message.Subject = Subject;
-                message.Body = Email;
+                message.Body = Body;
 
                 using (var client = new SmtpClient(ServerAddress, Port))
                 {
@@ -52,31 +53,42 @@ namespace SpamTool_Akhmerov.lib.Service
             }
         }
 
-        public void Send(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        public async Task SendAsync(string Subject, string Body, string Address)
         {
-            foreach (var email_recipient in recipients)
+            using (var message = new MailMessage(UserName, Address))
             {
-                Send(Subject, Body, email_recipient.EmailAddress);
+                message.Subject = Subject;
+                message.Body = Body;
+
+                using (var client = new SmtpClient(ServerAddress, Port))
+                {
+                    client.EnableSsl = UseSSL;
+                    client.Credentials = new NetworkCredential(UserName, Password);
+
+                    try
+                    {
+                        //client.Send(message);
+                        await client.SendMailAsync(message).ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError(e.Message);
+                        Trace.TraceError(e.ToString());
+                    }
+                }
             }
         }
 
-        public void SendParallel_Thread(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        public async Task SendAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
         {
             foreach (var email_recipient in recipients)
-            {
-                var sending_thread = new Thread(() => Send(Subject, Body, email_recipient.EmailAddress));
-                sending_thread.Priority = ThreadPriority.BelowNormal;
-                sending_thread.IsBackground = true;
-                sending_thread.Start();
-            }
+                await SendAsync(Subject, Body, email_recipient.EmailAddress).ConfigureAwait(false);
         }
 
-        public void SendParallel(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        public async Task SendParallelAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
         {
-            foreach (var address in recipients.Select(r => r.EmailAddress))
-            {
-                ThreadPool.QueueUserWorkItem(p => Send(Subject, Body, address));
-            }
+            await Task.WhenAll(recipients.Select(recipient => SendAsync(Subject, Body, recipient.EmailAddress)))
+                .ConfigureAwait(false);
         }
     }
 }
