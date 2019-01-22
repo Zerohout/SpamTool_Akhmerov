@@ -53,22 +53,26 @@
             IsReadOnly="True"
             HorizontalGridLinesBrush="{x:Null}"
             ColumnHeaderStyle="{StaticResource AzureDataGridColumnHeader}"
-            AlternatingRowBackground="Black"
+            SelectedItem="{Binding CurrentRecipient}"
             ItemsSource="{Binding Recipients}"
-            SelectedItem="{Binding CurrentRecipient}">
+            AlternatingRowBackground="Black"
+           >
             <DataGrid.Columns>
                 <DataGridTextColumn 
+                    Binding="{Binding Id}"
                     Header="ID" 
                     MinWidth="35"
-                    Binding="{Binding Id}"/>
+                    />
                 <DataGridTextColumn 
+                    Binding="{Binding Name}"
                     Header="Имя" 
                     MinWidth="100"
-                    Binding="{Binding Name}"/>
+                    />
                 <DataGridTextColumn 
+                    Binding="{Binding Address}"
                     Header="Адрес" 
                     MinWidth="200"
-                    Binding="{Binding EmailAddress}"/>
+                    />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

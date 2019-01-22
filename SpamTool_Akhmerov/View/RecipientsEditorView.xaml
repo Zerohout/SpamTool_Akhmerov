@@ -32,7 +32,7 @@
         <GroupBox Header="Адрес">
             <TextBox Validation.ErrorTemplate="{StaticResource DataErrorTemplate}">
                 <TextBox.Text>
-                    <Binding Path="EmailAddress" UpdateSourceTrigger="PropertyChanged" 
+                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged" 
                              NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <valrul:RegExValidationRule Expression="\w+@\w+\.[a-z]+$" ErrorMeessage="Адрес введён неверно"/>

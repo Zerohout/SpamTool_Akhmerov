@@ -156,7 +156,7 @@ namespace SpamTool_Akhmerov.Controls
         }
 
         #endregion
-
+        
         #region EditItemCommand : ICommand - Редактирование элемента
 
         /// <summary>Редактирование элемента</summary>

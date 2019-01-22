@@ -1,21 +1,16 @@
-﻿using System;
+﻿using SpamTool_Akhmerov.lib.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SpamTool_Akhmerov.lib.Data;
-using SpamTool_Akhmerov.lib.Database;
 
 namespace SpamTool_Akhmerov.lib.Interfaces
 {
     public interface IDataService
     {
-        IEnumerable<EmailRecipient> GetEmailRecipients();
+        IEnumerable<Recipient> GetEmailRecipients();
 
         IEnumerable<Sender> GetSenders();
 
-        bool UpdateRecipient(EmailRecipient recipient);
+        bool UpdateRecipient(Recipient recipient);
 
-        bool CreateRecipient(EmailRecipient recipient);
+        bool CreateRecipient(Recipient recipient);
     }
 }

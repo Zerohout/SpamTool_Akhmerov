@@ -23,7 +23,7 @@ namespace HomeworkConsoleApp
         class MatrixClass
         {
             public int[,] matrix1, matrix2, endMatrix;
-            public int startPart, endPart, classNum;
+            public int startPart, endPart;
 
             public MatrixClass(int[,] matrix1, int[,] matrix2, int[,] endMatrix, int startPart, int endPart, int classNum)
             {
@@ -32,7 +32,6 @@ namespace HomeworkConsoleApp
                 this.endMatrix = endMatrix;
                 this.startPart = startPart;
                 this.endPart = endPart;
-                this.classNum = classNum;
             }
         }
 
@@ -43,22 +42,26 @@ namespace HomeworkConsoleApp
             var filling2 = new Task<int[,]>(() => CreateRandomMatrix(count, new Random()));
             filling2.Start();
 
-            x = filling1.Result;
-            y = filling2.Result;
             z = new int[count, count];
 
             var tasks = new List<Task>(taskCount);
-            
+
             double increm = 1 / (double)taskCount;
             double leftIncrem = 0;
             double rightIncrem = increm;
 
             for (var i = 0; i < taskCount; i++)
             {
-                tasks.Add(Task.Run(() => MultiMatrix(
-                    new MatrixClass(x, y, z,
-                        (int)(count * leftIncrem), 
-                        (int)(count * rightIncrem), i))));
+                var j = i;
+                tasks.Add(Task.Run(async () =>
+                    {
+                        await Task.Delay(1);
+                        MultiMatrix(
+                            new MatrixClass(await filling1, await filling2, z,
+                                (int)(count * leftIncrem),
+                                (int)(count * rightIncrem), j));
+                    }
+                ));
 
                 if (i >= taskCount - 1) break;
                 leftIncrem += increm;

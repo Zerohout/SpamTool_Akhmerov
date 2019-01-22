@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace SpamTool_Akhmerov.lib.Data
 {
-    public class Mail
+    public class Sender
     {
         public int Id { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-
-        public Sender Sender { get; set; }
-        public MailServer MailServer { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
 
         public ICollection<Recipient> Recipients { get; set; }
+        public ICollection<Mail> Mails { get; set; }
     }
 }
