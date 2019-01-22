@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpamTool_Akhmerov.lib.Data;
 using SpamTool_Akhmerov.lib.Database;
 
 namespace SpamTool_Akhmerov.lib.Interfaces
 {
     public interface IDataService
     {
-        IEnumerable<EmailRecipients> GetEmailRecipients();
+        IEnumerable<EmailRecipient> GetEmailRecipients();
 
-        bool UpdateRecipient(EmailRecipients recipient);
+        IEnumerable<Sender> GetSenders();
 
-        bool CreateRecipient(EmailRecipients recipient);
+        bool UpdateRecipient(EmailRecipient recipient);
+
+        bool CreateRecipient(EmailRecipient recipient);
     }
 }

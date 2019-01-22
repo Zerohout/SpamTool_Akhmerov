@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SpamTool_Akhmerov.Controls
 {
-    public partial class ListControlPanel : UserControl
+    public partial class ControlPanelView : UserControl
     {
         #region PanelText : string - Текст на панели
 
@@ -25,7 +14,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(PanelText),
                 typeof(string),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata("Текст панели"));
 
         /// <summary>Текст на панели</summary>
@@ -44,7 +33,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(ItemSource),
                 typeof(IEnumerable),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(IEnumerable)));
 
         /// <summary>Управляемый список</summary>
@@ -56,7 +45,6 @@ namespace SpamTool_Akhmerov.Controls
 
         #endregion
 
-
         #region ListItemTemplate : DataTemplate - Шаблон отображения данных
 
         /// <summary>Шаблон отображения данных</summary>
@@ -64,7 +52,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(ListItemTemplate),
                 typeof(DataTemplate),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(DataTemplate)));
 
         /// <summary>Шаблон отображения данных</summary>
@@ -83,7 +71,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(SelectedIndex),
                 typeof(int),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(int)));
 
         /// <summary>Индекс выбранного элемента</summary>
@@ -102,7 +90,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(SelectedItem),
                 typeof(object),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(object)));
 
         /// <summary>Выбранный элемент</summary>
@@ -121,7 +109,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(CreateItemCommand),
                 typeof(ICommand),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(ICommand)));
 
         /// <summary>Команда создания нового элемента</summary>
@@ -140,7 +128,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(RemoveItemCommand),
                 typeof(ICommand),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(ICommand)));
 
         /// <summary>Удаление элемента</summary>
@@ -152,6 +140,23 @@ namespace SpamTool_Akhmerov.Controls
 
         #endregion
 
+        #region UpdateDataCommand : ICommand - Команда обновления данных
+
+        public static readonly DependencyProperty UpdateDataCommandProperty = 
+            DependencyProperty.Register(
+                nameof(UpdateDataCommand), 
+                typeof(ICommand), 
+                typeof(ControlPanelView), 
+                new PropertyMetadata(default(ICommand)));
+
+        public ICommand UpdateDataCommand
+        {
+            get => (ICommand) GetValue(UpdateDataCommandProperty);
+            set => SetValue(UpdateDataCommandProperty, value);
+        }
+
+        #endregion
+
         #region EditItemCommand : ICommand - Редактирование элемента
 
         /// <summary>Редактирование элемента</summary>
@@ -159,7 +164,7 @@ namespace SpamTool_Akhmerov.Controls
             DependencyProperty.Register(
                 nameof(EditItemCommand),
                 typeof(ICommand),
-                typeof(ListControlPanel),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(ICommand)));
 
         /// <summary>Редактирование элемента</summary>
@@ -171,51 +176,57 @@ namespace SpamTool_Akhmerov.Controls
 
         #endregion
 
+        #region IsVisibled : bool - активация/дезактивация элемента панели 
 
-
-        #region IsEnabled : bool - активация/дезактивация элемента панели 
-
-        public static readonly DependencyProperty IsVisibledProperty = 
+        public static readonly DependencyProperty IsVisibledProperty =
             DependencyProperty.Register(
                 nameof(IsVisibled),
-                typeof(Visibility), 
-                typeof(ListControlPanel), 
+                typeof(Visibility),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(Visibility)));
 
         public Visibility IsVisibled
         {
-            get => (Visibility) GetValue(IsVisibledProperty);
+            get => (Visibility)GetValue(IsVisibledProperty);
             set => SetValue(IsVisibledProperty, value);
         }
 
-        public ListControlPanel() => InitializeComponent();
+        public ControlPanelView() => InitializeComponent();
 
         #endregion
 
-        public static readonly DependencyProperty ColumnWidthProperty = 
+        #region ColumnWidth : GridLenght - Ширина колонки
+
+        public static readonly DependencyProperty ColumnWidthProperty =
             DependencyProperty.Register(
-                nameof(ColumnWidth), 
-                typeof(GridLength), 
-                typeof(ListControlPanel), 
+                nameof(ColumnWidth),
+                typeof(GridLength),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(GridLength)));
 
         public GridLength ColumnWidth
         {
-            get => (GridLength) GetValue(ColumnWidthProperty);
+            get => (GridLength)GetValue(ColumnWidthProperty);
             set => SetValue(ColumnWidthProperty, value);
         }
 
-        public static readonly DependencyProperty ControlWidthProperty = 
+        #endregion
+
+        #region ControlWidth : GridLength - Ширина пользовательского элемента
+
+        public static readonly DependencyProperty ControlWidthProperty =
             DependencyProperty.Register(
-                nameof(ControlWidth), 
-                typeof(GridLength), 
-                typeof(ListControlPanel), 
+                nameof(ControlWidth),
+                typeof(GridLength),
+                typeof(ControlPanelView),
                 new PropertyMetadata(default(GridLength)));
 
         public GridLength ControlWidth
         {
-            get => (GridLength) GetValue(ControlWidthProperty);
+            get => (GridLength)GetValue(ControlWidthProperty);
             set => SetValue(ControlWidthProperty, value);
         }
+
+        #endregion
     }
 }

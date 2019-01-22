@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
+using SpamTool_Akhmerov.lib.Database;
 
 namespace SpamTool_Akhmerov.lib.Service
 {
@@ -23,12 +28,12 @@ namespace SpamTool_Akhmerov.lib.Service
             this.Password = Password;
         }
 
-        public void Send(string Subject, string Email, string Address)
+        public void Send(string Subject, string Body, string Address)
         {
             using (var message = new MailMessage(UserName, Address))
             {
                 message.Subject = Subject;
-                message.Body = Email;
+                message.Body = Body;
 
                 using (var client = new SmtpClient(ServerAddress, Port))
                 {
@@ -46,6 +51,44 @@ namespace SpamTool_Akhmerov.lib.Service
                     }
                 }
             }
+        }
+
+        public async Task SendAsync(string Subject, string Body, string Address)
+        {
+            using (var message = new MailMessage(UserName, Address))
+            {
+                message.Subject = Subject;
+                message.Body = Body;
+
+                using (var client = new SmtpClient(ServerAddress, Port))
+                {
+                    client.EnableSsl = UseSSL;
+                    client.Credentials = new NetworkCredential(UserName, Password);
+
+                    try
+                    {
+                        //client.Send(message);
+                        await client.SendMailAsync(message).ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError(e.Message);
+                        Trace.TraceError(e.ToString());
+                    }
+                }
+            }
+        }
+
+        public async Task SendAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        {
+            foreach (var email_recipient in recipients)
+                await SendAsync(Subject, Body, email_recipient.EmailAddress).ConfigureAwait(false);
+        }
+
+        public async Task SendParallelAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        {
+            await Task.WhenAll(recipients.Select(recipient => SendAsync(Subject, Body, recipient.EmailAddress)))
+                .ConfigureAwait(false);
         }
     }
 }

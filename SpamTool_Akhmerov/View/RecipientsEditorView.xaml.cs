@@ -24,5 +24,18 @@ namespace SpamTool_Akhmerov.View
         {
             InitializeComponent();
         }
+
+        private void OnValidationError(object Sender, ValidationErrorEventArgs E)
+        {
+            var event_sender = (Control)Sender;
+            if (E.Action == ValidationErrorEventAction.Added)
+            {
+                event_sender.ToolTip = E.Error.ErrorContent.ToString();
+            }
+            else
+            {
+                event_sender.ToolTip = "";
+            }
+        }
     }
 }

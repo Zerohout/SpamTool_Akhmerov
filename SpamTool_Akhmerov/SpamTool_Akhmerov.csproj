@@ -88,11 +88,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\ListControlPanel.xaml.cs">
-      <DependentUpon>ListControlPanel.xaml</DependentUpon>
+    <Compile Include="Controls\ControlPanelView.xaml.cs">
+      <DependentUpon>ControlPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestMainViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ValidationRules\RegExValidationRule.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\RecepientsView.xaml.cs">
@@ -101,7 +101,7 @@
     <Compile Include="View\RecipientsEditorView.xaml.cs">
       <DependentUpon>RecipientsEditorView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\ListControlPanel.xaml">
+    <Page Include="Controls\ControlPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -30,9 +30,12 @@ namespace SpamTool_Akhmerov.lib.Database
 		
     #region Определения метода расширяемости
     partial void OnCreated();
-    partial void InsertEmailRecipients(EmailRecipients instance);
-    partial void UpdateEmailRecipients(EmailRecipients instance);
-    partial void DeleteEmailRecipients(EmailRecipients instance);
+    partial void InsertEmailRecipient(EmailRecipient instance);
+    partial void UpdateEmailRecipient(EmailRecipient instance);
+    partial void DeleteEmailRecipient(EmailRecipient instance);
+    partial void InsertSender(Sender instance);
+    partial void UpdateSender(Sender instance);
+    partial void DeleteSender(Sender instance);
     #endregion
 		
 		public SpamToolDatabaseDataContext() : 
@@ -65,17 +68,25 @@ namespace SpamTool_Akhmerov.lib.Database
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<EmailRecipients> EmailRecipients
+		public System.Data.Linq.Table<EmailRecipient> EmailRecipient
 		{
 			get
 			{
-				return this.GetTable<EmailRecipients>();
+				return this.GetTable<EmailRecipient>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Sender> Sender
+		{
+			get
+			{
+				return this.GetTable<Sender>();
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EmailRecipients")]
-	public partial class EmailRecipients : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class EmailRecipient : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -98,7 +109,7 @@ namespace SpamTool_Akhmerov.lib.Database
     partial void OnEmailAddressChanged();
     #endregion
 		
-		public EmailRecipients()
+		public EmailRecipient()
 		{
 			OnCreated();
 		}
@@ -159,6 +170,140 @@ namespace SpamTool_Akhmerov.lib.Database
 					this._EmailAddress = value;
 					this.SendPropertyChanged("EmailAddress");
 					this.OnEmailAddressChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Senders")]
+	public partial class Sender : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _Email;
+		
+		private string _Password;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    #endregion
+		
+		public Sender()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
 				}
 			}
 		}

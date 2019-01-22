@@ -18,11 +18,9 @@ namespace SpamTool_Akhmerov.ViewModel
             SimpleIoc.Default.Register<IDataService, DataServiceDB>();
 
             SimpleIoc.Default.Register<MainWindowViewModel>();
-            SimpleIoc.Default.Register<MainViewModel>();
+            
             
         }
-
-        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
 
         public MainWindowViewModel MainWindowModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
         

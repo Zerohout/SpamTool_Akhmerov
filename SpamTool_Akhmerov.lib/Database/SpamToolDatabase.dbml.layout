@@ -8,5 +8,11 @@
         <elementListCompartment Id="f284a99a-d02d-4f8f-b519-58c1807db489" absoluteBounds="3.39, 2.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="8ee7b9ff-0ed0-4b95-bf29-210dc1c0e39d" absoluteBounds="5.875, 1.875, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SpamToolDatabaseDataContext/Senders" />
+      <nestedChildShapes>
+        <elementListCompartment Id="04fbafd8-330c-4766-b097-87c29044e282" absoluteBounds="5.89, 2.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

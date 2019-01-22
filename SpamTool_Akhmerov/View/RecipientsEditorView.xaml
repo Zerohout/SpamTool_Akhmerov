@@ -4,15 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpamTool_Akhmerov.View"
+             xmlns:valrul="clr-namespace:SpamTool_Akhmerov.ValidationRules"
              mc:Ignorable="d" 
              Height="237.036" Width="265.488"
              DataContext="{Binding MainWindowModel, 
                            Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="DataErrorTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="Red" FontWeight="Bold" FontSize="18" Text="!" 
+                           ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=ErrorElement}"/>
+                <Border BorderBrush="Red" BorderThickness="4">
+                    <AdornedElementPlaceholder Name="ErrorElement"/>
+                </Border>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <StackPanel DataContext="{Binding CurrentRecipient}">
         <GroupBox Header="Id">
-            <TextBox 
-                IsReadOnly="True"
-                Text="{Binding Id}"/>
+            <TextBox Text="{Binding Id, NotifyOnValidationError=True}" Validation.Error="OnValidationError"/>
         </GroupBox>
         <GroupBox Header="Имя">
             <TextBox
@@ -20,15 +30,26 @@
                        UpdateSourceTrigger=PropertyChanged}"/>
         </GroupBox>
         <GroupBox Header="Адрес">
-            <TextBox
-                Text="{Binding EmailAddress, 
-                       UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Validation.ErrorTemplate="{StaticResource DataErrorTemplate}">
+                <TextBox.Text>
+                    <Binding Path="EmailAddress" UpdateSourceTrigger="PropertyChanged" 
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valrul:RegExValidationRule Expression="\w+@\w+\.[a-z]+$" ErrorMeessage="Адрес введён неверно"/>
+                            <DataErrorValidationRule/>
+                            <NotifyDataErrorValidationRule/>
+                            <ExceptionValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </GroupBox>
         <Button 
             Content="Внести изменения"
             Command="{Binding 
                         MainWindowModel.UpdateRecipientCommand, 
-                        Source={StaticResource Locator}}"
+                        Source={StaticResource Locator}, 
+                        UpdateSourceTrigger=PropertyChanged}"
             CommandParameter="{Binding}"/>
         <Button 
             Content="Создать"

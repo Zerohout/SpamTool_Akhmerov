@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SpamTool_Akhmerov.lib.Data;
 using SpamTool_Akhmerov.lib.Database;
 using SpamTool_Akhmerov.lib.Interfaces;
 using System.Collections.ObjectModel;
@@ -10,8 +11,19 @@ namespace SpamTool_Akhmerov.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IDataService dataService;
+        private readonly Scheduler _Scheduler = new Scheduler();
+
+        public Scheduler Scheduler => _Scheduler;
 
         #region Свойства
+
+        private int selectedTab = 0;
+
+        public int SelectedTab
+        {
+            get => selectedTab;
+            set => Set(ref selectedTab, value);
+        }
 
         private string title = "Мастер-Спамстер";
 
@@ -29,18 +41,28 @@ namespace SpamTool_Akhmerov.ViewModel
             set => Set(ref status, value);
         }
 
-        private EmailRecipients currentRecipient;
+        private EmailRecipient _currentRecipient;
 
-        public EmailRecipients CurrentRecipient
+        public EmailRecipient CurrentRecipient
         {
-            get => currentRecipient;
-            set => Set(ref currentRecipient, value);
+            get => _currentRecipient;
+            set => Set(ref _currentRecipient, value);
         }
 
-        public ObservableCollection<EmailRecipients> Recipients { get; } = new ObservableCollection<EmailRecipients>();
+        private Sender _currentSender;
+
+        public Sender CurrentSender
+        {
+            get => _currentSender;
+            set => Set(ref _currentSender, value);
+        }
+
+        public ObservableCollection<EmailRecipient> Recipients { get; } = new ObservableCollection<EmailRecipient>();
+
+        public ObservableCollection<Sender> Senders { get; } = new ObservableCollection<Sender>();
 
         #endregion
-        
+
         #region Команды
 
         public ICommand UpdateRecepientsCommand { get; }
@@ -61,7 +83,7 @@ namespace SpamTool_Akhmerov.ViewModel
 
         private void OnCreateNewRecipientCommandExecuted()
         {
-            var recipient = new EmailRecipients { Name = "Получатель", EmailAddress = "user@server.ru" };
+            var recipient = new EmailRecipient { Name = "Получатель", EmailAddress = "user@server.ru" };
             if (dataService.CreateRecipient(recipient))
             {
                 CurrentRecipient = recipient;
@@ -71,16 +93,64 @@ namespace SpamTool_Akhmerov.ViewModel
 
         public ICommand UpdateRecipientCommand { get; }
 
-        private bool CanUpdateRecipientCommandExecute(EmailRecipients recipient)
+        private bool CanUpdateRecipientCommandExecute(EmailRecipient recipient)
         {
-            return true; /*recipient != null || currentRecipient != null;*/
+            return true;
+            //return recipient != null || CurrentRecipient != null;
         }
 
-        private void OnUpdateRecipientCommandExecuted(EmailRecipients recipient)
+        private void OnUpdateRecipientCommandExecuted(EmailRecipient recipient)
         {
-            var temp = recipient ?? currentRecipient;
+            var temp = recipient ?? _currentRecipient;
             if (temp is null) return;
             dataService.UpdateRecipient(temp);
+        }
+
+        public ICommand UpdateSendersCommand { get; }
+
+        private bool CanUpdateSendersCommandExecute() => true;
+
+        private void OnUpdateSendersCommandExecuted()
+        {
+            Senders.Clear();
+            var dbSenders = dataService.GetSenders();
+            foreach (var sender in dbSenders)
+            {
+                Senders.Add(sender);
+            }
+        }
+
+        public ICommand GoToNextTabCommand { get; }
+
+        private bool CanGoToNextTabCommandExecute()
+        {
+            return SelectedTab < 3;
+        }
+
+        private void OnGoToNextTabCommandExecuted()
+        {
+            SelectedTab++;
+        }
+
+        public ICommand GoToPrevTabCommand { get; }
+
+        private bool CanGoToPrevTabCommandExecute()
+        {
+            return SelectedTab > 0;
+        }
+        
+        private void OnGoToPrevTabCommandExecuted()
+        {
+            SelectedTab--;
+        }
+
+        public ICommand ExitCommand { get; }
+
+        private bool CanExitCommandExecute() => true;
+
+        private void OnExitCommandExecuted()
+        {
+            App.Current.Shutdown();
         }
 
         #endregion
@@ -89,9 +159,15 @@ namespace SpamTool_Akhmerov.ViewModel
         {
             UpdateRecepientsCommand = new RelayCommand(OnUpdateRecipientsCommandExecuted, CanUpdateRecipientsCommandExecute);
             CreateNewRecipientCommand = new RelayCommand(OnCreateNewRecipientCommandExecuted);
-            UpdateRecipientCommand = new RelayCommand<EmailRecipients>(OnUpdateRecipientCommandExecuted, CanUpdateRecipientCommandExecute);
+            UpdateRecipientCommand = new RelayCommand<EmailRecipient>(OnUpdateRecipientCommandExecuted, CanUpdateRecipientCommandExecute);
 
+            UpdateSendersCommand = new RelayCommand(OnUpdateSendersCommandExecuted, CanUpdateSendersCommandExecute);
 
+            GoToNextTabCommand = new RelayCommand(OnGoToNextTabCommandExecuted, CanGoToNextTabCommandExecute);
+            GoToPrevTabCommand = new RelayCommand(OnGoToPrevTabCommandExecuted, CanGoToPrevTabCommandExecute);
+
+            ExitCommand = new RelayCommand(OnExitCommandExecuted, CanExitCommandExecute);
+            
             this.dataService = dataService;
         }
     }

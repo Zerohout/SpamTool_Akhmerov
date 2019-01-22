@@ -1,16 +1,23 @@
-﻿<UserControl x:Class="SpamTool_Akhmerov.Controls.ListControlPanel"
+﻿<UserControl x:Class="SpamTool_Akhmerov.Controls.ControlPanelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpamTool_Akhmerov.Controls"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="35" Width="{Binding ControlWidth}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
-        <Grid>
-            <Grid.ColumnDefinitions>
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding UpdateDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+        <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="{Binding ColumnWidth}"/>
                 <ColumnDefinition Width="Auto"/>
@@ -32,10 +39,22 @@
                 ItemTemplate="{Binding ListItemTemplate}"
                 Visibility="{Binding IsVisibled}">
         </ComboBox>
-        <ToolBar Grid.Column="2">
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button
+                Margin="3 0 0 0"
+                BorderBrush="Transparent"
+                Background="Transparent"
+                Command="{Binding UpdateDataCommand}">
+                <fa:ImageAwesome
+                    Icon="Refresh"
+                    Height="20"
+                    Foreground="Green"/>
+            </Button>
             <Button
                 x:Name="BtnAddSender"
                 Margin="3 0 0 0"
+                BorderBrush="Transparent"
+                Background="Transparent"
                 Command="{Binding CreateItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
                 <fa:ImageAwesome
@@ -45,6 +64,8 @@
             </Button>
             <Button
                 x:Name="BtnEditSender"
+                BorderBrush="Transparent"
+                Background="Transparent"
                 Margin="3 0 0 0"
                 Command="{Binding EditItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
@@ -55,6 +76,8 @@
             </Button>
             <Button
                 x:Name="BtnRemoveSender"
+                BorderBrush="Transparent"
+                Background="Transparent"
                 Margin="3 0 0 0"
                 Command="{Binding RemoveItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
@@ -63,7 +86,7 @@
                     Height="20"
                     Foreground="DarkRed"/>
             </Button>
-        </ToolBar>
+        </StackPanel>
     </Grid>
         
     
