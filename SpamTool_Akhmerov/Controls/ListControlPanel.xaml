@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="SpamTool_Akhmerov.Controls.ListControlPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpamTool_Akhmerov.Controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             Height="35" Width="{Binding ControlWidth}"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="{Binding ColumnWidth}"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                FontSize="16"
+                FontFamily="Comic Sans MS"
+                Text="{Binding PanelText}"/>
+        <ComboBox
+                x:Name="CBoxSenders"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Margin="5 0 0 0"
+                ItemsSource="{Binding ItemSource}"
+                SelectedIndex="{Binding SelectedIndex}"
+                SelectedItem="{Binding SelectedItem}"
+                ItemTemplate="{Binding ListItemTemplate}"
+                Visibility="{Binding IsVisibled}">
+        </ComboBox>
+        <ToolBar Grid.Column="2">
+            <Button
+                x:Name="BtnAddSender"
+                Margin="3 0 0 0"
+                Command="{Binding CreateItemCommand}" 
+                CommandParameter="{Binding SelectedItem}">
+                <fa:ImageAwesome
+                    Icon="Plus"
+                    Height="20"
+                    Foreground="DarkGreen"/>
+            </Button>
+            <Button
+                x:Name="BtnEditSender"
+                Margin="3 0 0 0"
+                Command="{Binding EditItemCommand}" 
+                CommandParameter="{Binding SelectedItem}">
+                <fa:ImageAwesome
+                    Icon="Edit"
+                    Height="20"
+                    Foreground="DarkOrange"/>
+            </Button>
+            <Button
+                x:Name="BtnRemoveSender"
+                Margin="3 0 0 0"
+                Command="{Binding RemoveItemCommand}" 
+                CommandParameter="{Binding SelectedItem}">
+                <fa:ImageAwesome
+                    Icon="Remove"
+                    Height="20"
+                    Foreground="DarkRed"/>
+            </Button>
+        </ToolBar>
+    </Grid>
+        
+    
+</UserControl>

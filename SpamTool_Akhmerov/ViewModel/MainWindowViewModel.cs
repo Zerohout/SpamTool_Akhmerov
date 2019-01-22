@@ -40,8 +40,7 @@ namespace SpamTool_Akhmerov.ViewModel
         public ObservableCollection<EmailRecipients> Recipients { get; } = new ObservableCollection<EmailRecipients>();
 
         #endregion
-
-
+        
         #region Команды
 
         public ICommand UpdateRecepientsCommand { get; }
@@ -85,11 +84,6 @@ namespace SpamTool_Akhmerov.ViewModel
         }
 
         #endregion
-
-
-
-
-
 
         public MainWindowViewModel(IDataService dataService)
         {

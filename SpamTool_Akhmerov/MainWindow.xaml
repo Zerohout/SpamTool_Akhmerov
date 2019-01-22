@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:ctrl="clr-namespace:SpamTool_Akhmerov.Controls"
     xmlns:local="clr-namespace:SpamTool_Akhmerov"
     xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
     xmlns:view="clr-namespace:SpamTool_Akhmerov.View"
@@ -56,7 +57,8 @@
             </Button>
             <controls:MetroAnimatedTabControl
                 x:Name="TabControlSpamTool"
-                TabIndex="0" SelectionChanged="TabControlSpamTool_SelectionChanged">
+                TabIndex="0" 
+                SelectionChanged="TabControlSpamTool_SelectionChanged">
                 <controls:MetroTabItem 
                     Header="Списки рассылки"
                     TabIndex="0">
@@ -68,20 +70,14 @@
                         <ToolBarTray
                             Grid.Row="0">
                             <ToolBar>
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    FontSize="16"
-                                    FontFamily="Comic Sans MS"
-                                    Text="Отправители:"/>
-                                <ComboBox
-                                    x:Name="CBoxSenders"
-                                    VerticalAlignment="Center"
-                                    Width="180"
-                                    Margin="5 0 0 0"
+                                <ctrl:ListControlPanel
+                                    HorizontalAlignment="Left"
+                                    PanelText="Отправители"
+                                    ControlWidth="350"
+                                    ItemSource="{x:Static data:Senders.List}"
                                     SelectedIndex="0"
-                                    ItemsSource="{x:Static data:Senders.List}">
-                                    <ComboBox.ItemTemplate>
+                                    IsVisibled="Visible">
+                                    <ctrl:ListControlPanel.ListItemTemplate>
                                         <DataTemplate DataType="data:Sender">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Name}"/>
@@ -89,105 +85,36 @@
                                                 <TextBlock Text="{Binding Address}" Opacity="0.5"/>
                                             </StackPanel>
                                         </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                                <Button
-                                    x:Name="BtnAddSender"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Plus"
-                                        Height="20"
-                                        Foreground="DarkGreen"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnEditSender"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Edit"
-                                        Height="20"
-                                        Foreground="DarkOrange"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnRemoveSender"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Remove"
-                                        Height="20"
-                                        Foreground="DarkRed"/>
-                                </Button>
+                                    </ctrl:ListControlPanel.ListItemTemplate>
+                                </ctrl:ListControlPanel>
                             </ToolBar>
                             <ToolBar>
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    FontSize="16"
-                                    FontFamily="Comic Sans MS"
-                                    Text="Сервера:"
-                                    />
-                                <ComboBox
-                                    x:Name="CBoxServers"
-                                    Width="150"
-                                    Margin="5 0 0 0"
-                                    ItemsSource="{x:Static data:MailServers.Servers}"
-                                    DisplayMemberPath="Address"/>
-                                <Button
-                                    x:Name="BtnAddServer"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Plus"
-                                        Height="20"
-                                        Foreground="DarkGreen"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnEditServer"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Edit"
-                                        Height="20"
-                                        Foreground="DarkOrange"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnRemoveServer"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Remove"
-                                        Height="20"
-                                        Foreground="DarkRed"/>
-                                </Button>
+                                <ctrl:ListControlPanel
+                                    HorizontalAlignment="Left"
+                                    PanelText="Сервера"
+                                    ControlWidth="350"
+                                    ItemSource="{x:Static data:MailServers.Servers}"
+                                    SelectedIndex="0"
+                                    IsVisibled="Visible">
+                                    <ctrl:ListControlPanel.ListItemTemplate>
+                                        <DataTemplate DataType="data:Sender">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Address}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ctrl:ListControlPanel.ListItemTemplate>
+                                </ctrl:ListControlPanel>
                             </ToolBar>
-                            <ToolBar 
+                            <ToolBar
                                 Band="1"
-                                BandIndex="0">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    FontSize="16"
-                                    FontFamily="Comic Sans MS"
-                                    Text="Список адресатов:"/>
-                                <Button
-                                    x:Name="BtnAddAddressee"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Plus"
-                                        Height="20"
-                                        Foreground="DarkGreen"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnEditAddressee"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Edit"
-                                        Height="20"
-                                        Foreground="DarkOrange"/>
-                                </Button>
-                                <Button
-                                    x:Name="BtnRemoveAddressee"
-                                    Margin="3 0 0 0">
-                                    <fa:ImageAwesome
-                                        Icon="Remove"
-                                        Height="20"
-                                        Foreground="DarkRed"/>
-                                </Button>
+                                Width="Auto">
+                                <ctrl:ListControlPanel
+                                    HorizontalAlignment="Left"
+                                    ColumnWidth="0"
+                                    ControlWidth="Auto"
+                                    PanelText="Список адресатов"
+                                    IsVisibled="Hidden"
+                                    SelectedIndex="0"/>
                             </ToolBar>
                         </ToolBarTray>
                         <Grid Grid.Row="1">
@@ -201,9 +128,11 @@
                                 Grid.Column="0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Stretch"
-                                Width="4"
+                                Width="1"
                                 Background="DarkRed"/>
-                            <view:RecipientsEditorView Grid.Column="1"/>
+                            <view:RecipientsEditorView 
+                                VerticalAlignment="Top"
+                                Grid.Column="1"/>
                         </Grid>
                     </Grid>
                 </controls:MetroTabItem>
@@ -247,8 +176,7 @@
                                 </StackPanel>
                             </Button>
                             <Button
-                                x:Name="BtnSendMail"
-                                Click="OnSendButtonClick">
+                                x:Name="BtnSendMail">
                                 <StackPanel Orientation="Horizontal">
                                     <fa:ImageAwesome 
                                         Icon="Send" 

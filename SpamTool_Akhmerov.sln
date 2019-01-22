@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpamTool_Akhmerov", "SpamTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpamTool_Akhmerov.lib", "SpamTool_Akhmerov.lib\SpamTool_Akhmerov.lib.csproj", "{889114E1-E89B-4D4D-BE18-8112A81F80E3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{64599EFC-17BA-48AF-892C-2DBA9F1937EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpamTool_Akhmerov.lib.Tests", "UnitTestProject1\SpamTool_Akhmerov.lib.Tests.csproj", "{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{889114E1-E89B-4D4D-BE18-8112A81F80E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{889114E1-E89B-4D4D-BE18-8112A81F80E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{889114E1-E89B-4D4D-BE18-8112A81F80E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C89D7D8-FA91-400F-B4D4-6B3C84583C0D} = {64599EFC-17BA-48AF-892C-2DBA9F1937EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5CD0BAF-E0D6-47CB-85FC-0BEAAD3FE060}

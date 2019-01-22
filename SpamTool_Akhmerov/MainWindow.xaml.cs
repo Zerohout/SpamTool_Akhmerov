@@ -17,30 +17,37 @@ namespace SpamTool_Akhmerov
 
         private async void OnSendButtonClick(object Sender, RoutedEventArgs e)
         {
-            var server = CBoxSenders.SelectedItem as MailServer;
-            if (server == null)
-            {
-                await this.ShowMessageAsync("Ошибка", "Сервер не выбран!");
-                return;
-            }
+            //var server = Servers.SelectedItem as MailServer;
+            //if (server == null)
+            //{
+            //    MessageBox.Show("Сервер не выбран!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return;
+            //}
 
-            var sender = CBoxSenders.SelectedItem as Sender;
-            if (sender == null)
-            {
-                await this.ShowMessageAsync("Ошибка", "Отправитель не выбран!");
-                return;
-            }
+            //var server = CBoxSenders.SelectedItem as MailServer;
+            //if (server == null)
+            //{
+            //    await this.ShowMessageAsync("Ошибка", "Сервер не выбран!");
+            //    return;
+            //}
 
-            var password = new SecureString();
-            foreach (var password_char in PasswordService.Decode(sender.Password))
-                password.AppendChar(password_char);
+            //var sender = CBoxSenders.SelectedItem as Sender;
+            //if (sender == null)
+            //{
+            //    await this.ShowMessageAsync("Ошибка", "Отправитель не выбран!");
+            //    return;
+            //}
+
+            //var password = new SecureString();
+            //foreach (var password_char in PasswordService.Decode(sender.Password))
+            //    password.AppendChar(password_char);
 
 
-            var send_mail_service = new MailSenderService(
-                server.Address, server.Port, server.UseSSL,
-                sender.Address, password);
+            //var send_mail_service = new MailSenderService(
+            //    server.Address, server.Port, server.UseSSL,
+            //    sender.Address, password);
 
-            send_mail_service.Send("Subject", "Email body", "email@server.com");
+            //send_mail_service.Send("Subject", "Email body", "email@server.com");
         }
 
         private void OnBtnPreviousTabClick(object sender, RoutedEventArgs e)
