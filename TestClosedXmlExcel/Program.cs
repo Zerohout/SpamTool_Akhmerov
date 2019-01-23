@@ -18,11 +18,8 @@ namespace TestClosedXmlExcel
 
                 recipients.Add(new TestRecipient(j, $"Получатель{j}", $"address{j}@server.ru"));
             }
-
-
+            
             var excel = new DocumentExcel();
-            //excel.CreateSimpleDocument(path);
-            //excel.CreateAverageDocument(path, recipients);
             excel.CreateDocument(path, recipients);
         }
 

@@ -5,45 +5,6 @@ namespace TestClosedXmlExcel
 {
     public class DocumentExcel
     {
-        public void CreateSimpleDocument(string path)
-        {
-            var wb = new XLWorkbook();
-
-            var ws = wb.Worksheets.Add("Recipients");
-
-            ws.Cell("B2").Value = "Recipients";
-
-            ws.Cell("B3").Value = "Name";
-            ws.Cell("C3").Value = "Address";
-
-            var rngTable = ws.Range("B2:C6");
-
-            rngTable.FirstCell().Style
-                .Font.SetBold()
-                .Fill.SetBackgroundColor(XLColor.CornflowerBlue)
-                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-
-            rngTable.FirstRow().Merge(); // rngTable.Range("A1:E1").Merge() or rngTable.Row(1).Merge()
-
-            var rngHeaders = rngTable.Range("A2:B2"); // The address is relative to rngTable (NOT the worksheet)
-            rngHeaders.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            rngHeaders.Style.Font.Bold = true;
-            rngHeaders.Style.Font.FontColor = XLColor.DarkBlue;
-            rngHeaders.Style.Fill.BackgroundColor = XLColor.Aqua;
-
-            var rngData = ws.Range("B3:C6");
-            var excelTable = rngData.CreateTable();
-
-            excelTable.ShowTotalsRow = true;
-
-            ws.RangeUsed().Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
-
-            ws.Columns().AdjustToContents(); // You can also specify the range of columns to adjust, e.g.
-            // ws.Columns(2, 6).AdjustToContents(); or ws.Columns("2-6").AdjustToContents();
-
-            wb.SaveAs(path);
-        }
-
         public void CreateDocument(string path, List<TestRecipient> recipients)
         {
             var count = recipients.Count;
@@ -122,81 +83,6 @@ namespace TestClosedXmlExcel
             ws.Range("A2", $"C{count + 2}").CreateTable();
 
             wb.SaveAs(path);
-        }
-
-        public void CreateAverageDocument(string path, List<TestRecipient> recipients)
-        {
-            var recCount = recipients.Count;
-
-            var wb = new XLWorkbook();
-            var ws = wb.Worksheets.Add("Получатели");
-
-            ws.Cell("B3").Value = "ID";
-            ws.Cell("C3").Value = "Имя";
-            ws.Cell("D3").Value = "Адрес почты";
-
-            var rngTable = ws.Range("B2", $"D{3 + recCount}");
-
-            foreach (var row in rngTable.Rows(rngTable.FirstRow().RowNumber(), rngTable.LastRow().RowNumber()))
-            {
-                row.Style
-                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
-                    .Alignment.SetVertical(XLAlignmentVerticalValues.Center)
-                    .Font.SetFontName("Comic Sans MS");
-
-                if (row.RowNumber() == rngTable.FirstRow().RowNumber())
-                {
-                    row.Style
-                        .Font.SetFontSize(22)
-                        .Font.SetBold()
-                        .Font.SetFontColor(XLColor.GoldenBrown)
-                        .Fill.SetBackgroundColor(XLColor.CandyAppleRed)
-                        .Border.SetOutsideBorder(XLBorderStyleValues.Thick);
-                    row.Merge();
-                    row.Value = "Получатели";
-
-                    continue;
-                }
-
-                if (row.RowNumber() == (rngTable.FirstRow().RowNumber() + 1))
-                {
-                    row.Style
-                        .Font.SetBold()
-                        .Font.SetFontSize(20)
-                        .Font.SetFontColor(XLColor.CoralRed)
-                        .Fill.SetBackgroundColor(XLColor.AshGrey);
-                    continue;
-                }
-
-                row.Style
-                    .Font.SetFontColor(row.RowNumber() % 2 != 0 ? XLColor.RedMunsell : XLColor.VioletRyb)
-                    .Fill.SetBackgroundColor(row.RowNumber() % 2 != 0 ? XLColor.DebianRed : XLColor.FloralWhite)
-                    .Border.SetOutsideBorder(XLBorderStyleValues.Thick);
-            }
-
-            ws.Column("B").Width = 150;
-            ws.Column("C").Width = 500;
-            ws.Column("C").Width = 700;
-
-            var rngData = ws.Range($"B3:D{3 + (recCount - 1)}");
-            rngData.CreateTable();
-            //excelTable.ShowTotalsRow = true;
-
-            ws.FirstColumn().Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
-            ws.LastColumn().Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
-
-            var dataCount = 4;
-
-            foreach (var recipient in recipients)
-            {
-                ws.Cell($"B{dataCount}").Value = recipient.Id;
-                ws.Cell($"C{dataCount}").Value = recipient.Name;
-                ws.Cell($"D{dataCount}").Value = recipient.Address;
-                dataCount++;
-            }
-
-            wb.SaveAs(path);
-
         }
     }
 }

@@ -28,14 +28,6 @@ namespace TestOpenXml
             }
         }
 
-        public void OpenDocument(string filePath)
-        {
-            using (var document = WordprocessingDocument.Open(filePath, true))
-            {
-                
-            }
-        }
-
         // Adds child parts and generates content of the specified part.
         private void CreateParts(WordprocessingDocument document)
         {
