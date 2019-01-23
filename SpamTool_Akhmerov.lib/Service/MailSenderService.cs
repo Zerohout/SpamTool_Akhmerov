@@ -1,13 +1,12 @@
-﻿using System;
+﻿using SpamTool_Akhmerov.lib.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security;
-using System.Threading;
 using System.Threading.Tasks;
-using SpamTool_Akhmerov.lib.Database;
 
 namespace SpamTool_Akhmerov.lib.Service
 {
@@ -79,15 +78,15 @@ namespace SpamTool_Akhmerov.lib.Service
             }
         }
 
-        public async Task SendAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        public async Task SendAsync(string Subject, string Body, IEnumerable<Recipient> recipients)
         {
             foreach (var email_recipient in recipients)
-                await SendAsync(Subject, Body, email_recipient.EmailAddress).ConfigureAwait(false);
+                await SendAsync(Subject, Body, email_recipient.Address).ConfigureAwait(false);
         }
 
-        public async Task SendParallelAsync(string Subject, string Body, IEnumerable<EmailRecipient> recipients)
+        public async Task SendParallelAsync(string Subject, string Body, IEnumerable<Recipient> recipients)
         {
-            await Task.WhenAll(recipients.Select(recipient => SendAsync(Subject, Body, recipient.EmailAddress)))
+            await Task.WhenAll(recipients.Select(recipient => SendAsync(Subject, Body, recipient.Address)))
                 .ConfigureAwait(false);
         }
     }

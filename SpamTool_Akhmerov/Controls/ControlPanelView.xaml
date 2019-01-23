@@ -8,15 +8,17 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             Height="35" Width="{Binding ControlWidth}"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             Height="35" Width="{Binding ControlWidth}">
     <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
                 Command="{Binding UpdateDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>-->
-    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+    <Grid DataContext=
+          "{Binding RelativeSource=
+            {RelativeSource FindAncestor, 
+                            AncestorType=UserControl}}">
         <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="{Binding ColumnWidth}"/>
@@ -55,6 +57,7 @@
                 Margin="3 0 0 0"
                 BorderBrush="Transparent"
                 Background="Transparent"
+                IsEnabled="False"
                 Command="{Binding CreateItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
                 <fa:ImageAwesome
@@ -67,6 +70,7 @@
                 BorderBrush="Transparent"
                 Background="Transparent"
                 Margin="3 0 0 0"
+                IsEnabled="False"
                 Command="{Binding EditItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
                 <fa:ImageAwesome
@@ -79,6 +83,7 @@
                 BorderBrush="Transparent"
                 Background="Transparent"
                 Margin="3 0 0 0"
+                IsEnabled="False"
                 Command="{Binding RemoveItemCommand}" 
                 CommandParameter="{Binding SelectedItem}">
                 <fa:ImageAwesome

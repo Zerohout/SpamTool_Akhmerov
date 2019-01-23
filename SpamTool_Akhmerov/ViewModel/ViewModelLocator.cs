@@ -1,8 +1,6 @@
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using SpamTool_Akhmerov.lib.Database;
-using SpamTool_Akhmerov.lib.Interfaces;
-using SpamTool_Akhmerov.lib.Service;
+using SpamTool_Akhmerov.lib.Data;
 
 
 namespace SpamTool_Akhmerov.ViewModel
@@ -13,20 +11,20 @@ namespace SpamTool_Akhmerov.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Unregister<SpamToolDatabaseDataContext>();
-            SimpleIoc.Default.Register(() => new SpamToolDatabaseDataContext());
-            SimpleIoc.Default.Register<IDataService, DataServiceDB>();
+            //SimpleIoc.Default.Unregister<DatabaseContext>();
+            //SimpleIoc.Default.Register(() => new DatabaseContext());
+            //SimpleIoc.Default.Register<IDataService, DataServiceDB>();
 
             SimpleIoc.Default.Register<MainWindowViewModel>();
-            
-            
+
+
         }
 
         public MainWindowViewModel MainWindowModel => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
-        
+
         public static void Cleanup()
         {
-            
+
         }
     }
 }

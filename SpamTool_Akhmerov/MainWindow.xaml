@@ -10,14 +10,14 @@
     xmlns:local="clr-namespace:SpamTool_Akhmerov"
     xmlns:data="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
     xmlns:view="clr-namespace:SpamTool_Akhmerov.View"
-    xmlns:database="clr-namespace:SpamTool_Akhmerov.lib.Database;assembly=SpamTool_Akhmerov.lib"
+    xmlns:database="clr-namespace:SpamTool_Akhmerov.lib.Data;assembly=SpamTool_Akhmerov.lib"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     mc:Ignorable="d"
         Title="{Binding Title}"
         DataContext=
         "{Binding MainWindowModel, 
                   Source={StaticResource Locator}}"
-        Height="500" Width="815"
+        Height="500" Width="825"
         TitleCharacterCasing="Normal"
         BorderThickness="0" 
         GlowBrush="Black"
@@ -26,7 +26,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
-                Command="{Binding UpdateSendersCommand}"/>
+                Command="{Binding UpdateAllDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
@@ -52,11 +52,11 @@
         <StackPanel Orientation="Horizontal">
             <Button
                 x:Name="BtnPreviousTab"
-                Command="{Binding GoToPrevTabCommand,
-                        UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding GoToPrevTabCommand}"
                 VerticalAlignment="Top"
                 Margin="3 9 0 0"
                 Width="20"
+                IsEnabled="True"
                 Height="25">
                 <fa:ImageAwesome 
                     Icon="AngleLeft"
@@ -66,8 +66,8 @@
             </Button>
             <metro:MetroAnimatedTabControl
                 x:Name="TabControlSpamTool"
-                TabIndex="0"
-                SelectedIndex="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}">
+                SelectedIndex="{Binding CurrentTab, 
+                UpdateSourceTrigger=PropertyChanged}">
                 <metro:MetroTabItem 
                     Header="Списки рассылки"
                     TabIndex="0">
@@ -92,8 +92,7 @@
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
                                 PanelText="Отправители:"
-                                
-                                ControlWidth="350"
+                                ControlWidth="Auto"
                                 Margin="0 0 5 0"
                                 ItemSource="{Binding Senders}"
                                 SelectedItem="{Binding CurrentSender}"
@@ -101,7 +100,7 @@
                                 SelectedIndex="0"
                                 IsVisibled="Visible">
                                 <ctrl:ControlPanelView.ListItemTemplate>
-                                    <DataTemplate DataType="database:Sender">
+                                    <DataTemplate DataType="data:Sender">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}"/>
                                             <TextBlock>:</TextBlock>
@@ -113,10 +112,20 @@
                             <ctrl:ControlPanelView
                                 Grid.Row="0"
                                 Grid.Column="1"
+                                ColumnWidth="0"
+                                ControlWidth="Auto"
+                                PanelText="Список адресатов"
+                                IsVisibled="Hidden"
+                                SelectedIndex="0"/>
+                            <ctrl:ControlPanelView
+                                Grid.Row="1"
+                                Grid.Column="0"
                                 HorizontalAlignment="Left"
                                 PanelText="Сервера"
                                 ControlWidth="350"
-                                ItemSource="{x:Static data:MailServers.Servers}"
+                                UpdateDataCommand="{Binding UpdateServersCommand}"
+                                ItemSource="{Binding Servers}"
+                                SelectedItem="{Binding CurrentServer}"
                                 SelectedIndex="0"
                                 IsVisibled="Visible">
                                 <ctrl:ControlPanelView.ListItemTemplate>
@@ -129,14 +138,7 @@
                                     </DataTemplate>
                                 </ctrl:ControlPanelView.ListItemTemplate>
                             </ctrl:ControlPanelView>
-                            <ctrl:ControlPanelView
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                ColumnWidth="0"
-                                ControlWidth="Auto"
-                                PanelText="Список адресатов"
-                                IsVisibled="Hidden"
-                                SelectedIndex="0"/>
+
                         </Grid>
                         <Grid
                             Grid.Row="1">
@@ -253,7 +255,7 @@
                                                 <TextBlock Text="Получатели писем"/>
                                                 <ListBox ItemsSource="{Binding Recipients}" Margin="5,0,2,2">
                                                     <ListBox.ItemTemplate>
-                                                        <DataTemplate DataType="database:EmailRecipient">
+                                                        <DataTemplate DataType="database:Recipient">
                                                             <TextBlock Text="{Binding Name}"/>
                                                         </DataTemplate>
                                                     </ListBox.ItemTemplate>
@@ -270,14 +272,19 @@
 
                 </metro:MetroTabItem>
                 <metro:MetroTabItem Header="Статистика" TabIndex="3">
-
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <view:ReportCreator Grid.Column="0"/>
+                    </Grid>
                 </metro:MetroTabItem>
 
             </metro:MetroAnimatedTabControl>
             <Button
                 x:Name="BtnNextTab"
-                Command="{Binding GoToNextTabCommand, 
-                        UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding GoToNextTabCommand}"
                 VerticalAlignment="Top"
                 Margin="0 9 3 0"
                 Width="20"
