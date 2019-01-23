@@ -56,6 +56,7 @@
                 VerticalAlignment="Top"
                 Margin="3 9 0 0"
                 Width="20"
+                IsEnabled="True"
                 Height="25">
                 <fa:ImageAwesome 
                     Icon="AngleLeft"
@@ -137,7 +138,7 @@
                                     </DataTemplate>
                                 </ctrl:ControlPanelView.ListItemTemplate>
                             </ctrl:ControlPanelView>
-                            
+
                         </Grid>
                         <Grid
                             Grid.Row="1">
@@ -271,7 +272,13 @@
 
                 </metro:MetroTabItem>
                 <metro:MetroTabItem Header="Статистика" TabIndex="3">
-
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <view:ReportCreator Grid.Column="0"/>
+                    </Grid>
                 </metro:MetroTabItem>
 
             </metro:MetroAnimatedTabControl>

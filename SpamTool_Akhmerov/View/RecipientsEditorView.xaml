@@ -12,9 +12,12 @@
     <UserControl.Resources>
         <ControlTemplate x:Key="DataErrorTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Foreground="Red" FontWeight="Bold" FontSize="18" Text="!" 
+                <TextBlock Foreground="Red" 
+                           FontWeight="Bold" 
+                           FontSize="18" 
+                           Text="!" 
                            ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=ErrorElement}"/>
-                <Border BorderBrush="Red" BorderThickness="4">
+                <Border BorderBrush="Yellow" BorderThickness="4">
                     <AdornedElementPlaceholder Name="ErrorElement"/>
                 </Border>
             </StackPanel>
@@ -22,7 +25,9 @@
     </UserControl.Resources>
     <StackPanel DataContext="{Binding CurrentRecipient}">
         <GroupBox Header="Id">
-            <TextBox Text="{Binding Id, NotifyOnValidationError=True}" Validation.Error="OnValidationError"/>
+            <TextBox 
+                Text="{Binding Id, NotifyOnValidationError=True}" 
+                Validation.Error="OnValidationError"/>
         </GroupBox>
         <GroupBox Header="Имя">
             <TextBox
